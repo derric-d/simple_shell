@@ -22,11 +22,19 @@ char **env_array(char *cmd, char **environ);
 char *_getenv(char *name, char **environ);
 void _printenv(char **env);
 void exec_env(char *line, char **chargv, char **env);
+<<<<<<< HEAD
 int exarg(char *input, char **env, int count);
 void exec_path(char **chargv, char *input, char **env, int count);
 void eof_routine(char *line);
 char *read_line(void);
 size_t _strlen (const char *s);
+=======
+int exarg(char *input, char **env);
+void exec_path(char **chargv, char *input, char **env);
+void eof_routine(char *line);
+char *read_line(void);
+size_t _strlen(const char *s);
+>>>>>>> 0d6f7caaabeba4b59864d9be5b985f801112ef3b
 int _strcmp(const char *s1, const char *s2);
 char *_strcpy(char *dest, const char *src);
 char *_strncpy(char *dest, const char *src, size_t n);

@@ -13,6 +13,7 @@ void free_dub(char **dub)
 	while (dub[i])
 	{
 		free(dub);
+<<<<<<< HEAD
 		dub = NULL;
 		i++;
 	}
@@ -24,5 +25,12 @@ void free_dub(char **dub)
 
 	free(dub);
 	dub = NULL;
+=======
+		i++;
+	}
+	if (dub[i] == NULL)
+		free(dub[i]);
+	free(dub);
+>>>>>>> 0d6f7caaabeba4b59864d9be5b985f801112ef3b
 }
 
