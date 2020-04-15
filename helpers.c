@@ -101,8 +101,8 @@ int _strspn(char *s, char *accept)
 }
 
 /**
- * strlen - calculates the length of a given string
- * @str: a string
+ * _strlen - calculates the length of a given string
+ * @s: a string
  * Return: the length of the string
  */
 
