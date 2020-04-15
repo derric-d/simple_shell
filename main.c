@@ -40,17 +40,17 @@ int main(int ac, char **av, char **env)
 	char *line;
 	int status = 1, count;
 	(void)ac;
-	(void)av;
+
 	signal(SIGINT, exec_sig);
 	do {
 		++count;
 		write(1, "$ ", 2);
 		line = read_line();
-		if (strcmp(line, "exit\n") == 0)
+		if (_strcmp(line, "exit\n") == 0)
 		{
 			return (status);
 		}
-		status = exarg(line, env, count);
+		status = exarg(line, env, count, av);
 		free(line);
 		line = NULL;
 	} while (1);

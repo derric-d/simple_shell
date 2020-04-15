@@ -1,18 +1,42 @@
 #include "shell_2.h"
+int _error(char c)
+{
+	perror("path error");
+	write(1, &c, 1);
+	return (errno);
+}
 /**
  * path_error - handles error for path cmd
  * @chargv: argument vector
  * @cmd: cmd passed
  * @count: count of prompt cycles
  */
-void path_error(char **chargv, char *cmd, int count)
+void path_error(char **chargv, char *cmd, int count, char **argv)
 {
+	int num = 1, len = 1, safecnt = count;
+
 	(void)chargv;
-	(void)count;
-
+	write(1, argv[0], _strlen(argv[0]));
+	write(1, ": ", 2);
+	while (safecnt > 9)
+	{
+		safecnt /= 10;
+		num *= 10;
+		len++;
+	}
+	while (len > 1)
+	{
+		if ((count / num) < 10)
+			_error((count / num + '0'));
+		else
+			_error((count % num) % 10 + '0');
+		len--;
+		num /= 10;
+	}
+	_error(count % 10 + '0');
+	write(1, ": ", 2);
 	write(1, cmd, _strlen(cmd));
-	write(1, ": command not found\n", 20);
-
+	write(1, ": not found\n", 12);
 }
 /**
  * exarg - executes argument passed
@@ -21,7 +45,7 @@ void path_error(char **chargv, char *cmd, int count)
  * @count: count of prompt cycles
  * Return: 1 on success
  */
-int exarg(char *input, char **env, int count)
+int exarg(char *input, char **env, int count, char **argv)
 {
 	pid_t pid;
 	int status = 1, exec_res;
@@ -42,14 +66,14 @@ int exarg(char *input, char **env, int count)
 			exec_env(input, chargv, env);
 		else if (stat(chargv[0], &filestat) == 0)
 		{
-			exec_res = execve(chargv[0], chargv, NULL);
+			exec_res = execve(chargv[0], chargv, env);
 			if (exec_res < 0)
 				perror("exec error");
 			exit(EXIT_FAILURE);
 		}
 		else
 		{
-			exec_path(chargv, input, env, count);
+			exec_path(chargv, input, env, count, argv);
 		}
 	}
 	else if (pid < 0)
@@ -71,7 +95,7 @@ int exarg(char *input, char **env, int count)
  * @env: env passed
  * @count: count of prompt cycles
  */
-void exec_path(char **chargv, char *input, char **env, int count)
+void exec_path(char **chargv, char *input, char **env, int count, char **argv)
 {
 	struct stat pathstat;
 	int i = 0;
@@ -84,7 +108,7 @@ void exec_path(char **chargv, char *input, char **env, int count)
 			execve(pathdirs[i], chargv, NULL);
 		i++;
 	}
-	path_error(chargv, chargv[0], count);
+	path_error(chargv, chargv[0], count, argv);
 
 	free(input);
 	input = NULL;
