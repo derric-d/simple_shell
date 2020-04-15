@@ -101,20 +101,8 @@ int _strspn(char *s, char *accept)
 }
 
 /**
-<<<<<<< HEAD
  * strlen - calculates the length of a given string
  * @str: a string
- * Return: the length of the string
- */
-
-size_t _strlen (const char *s)
-{
-	int len;
-
-	if(!s)
-=======
- * _strlen - calculates the length of a given string
- * @s: a string
  * Return: the length of the string
  */
 
@@ -123,14 +111,10 @@ size_t _strlen(const char *s)
 	int len;
 
 	if (!s)
->>>>>>> 0d6f7caaabeba4b59864d9be5b985f801112ef3b
 		return (0);
 
 	for (len = 0; s[len]; len++)
 		;
 	return (len);
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 0d6f7caaabeba4b59864d9be5b985f801112ef3b

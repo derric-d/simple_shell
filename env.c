@@ -135,7 +135,4 @@ void exec_env(char *line, char **chargv, char **env)
 	_printenv(env);
 	exit(EXIT_SUCCESS);
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 0d6f7caaabeba4b59864d9be5b985f801112ef3b

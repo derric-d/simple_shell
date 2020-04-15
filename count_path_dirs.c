@@ -5,10 +5,6 @@
  * @path: path passed
  * Return: count of directories
  */
-<<<<<<< HEAD
-=======
-
->>>>>>> 0d6f7caaabeba4b59864d9be5b985f801112ef3b
 unsigned int count_path_dir(char *path)
 {
 	unsigned int count, i, flag;
