@@ -5,12 +5,12 @@
  * @c: error code??
  * Return: Error code??
  */
-int _error(char c)
+/*int _error(char c)
 {
 	perror("path error");
 	write(1, &c, 1);
 	return (errno);
-}
+}*/
 /**
  * path_error - handles error for path cmd
  * @chargv: argument vector
@@ -23,15 +23,15 @@ void path_error(char **chargv, char *cmd, int count, char **argv)
 	int num = 1, len = 1, safecnt = count;
 
 	(void)chargv;
-	write(1, argv[0], _strlen(argv[0]));
-	write(1, ": ", 2);
+	/*write(1, argv[0], _strlen(argv[0]));
+	write(1, ": ", 2);*/
 	while (safecnt > 9)
 	{
 		safecnt /= 10;
 		num *= 10;
 		len++;
 	}
-	while (len > 1)
+	/*while (len > 1)
 	{
 		if ((count / num) < 10)
 			_error((count / num + '0'));
@@ -40,11 +40,21 @@ void path_error(char **chargv, char *cmd, int count, char **argv)
 		len--;
 		num /= 10;
 	}
-	_error(count % 10 + '0');
-	write(1, ": ", 2);
-	write(1, cmd, _strlen(cmd));
-	write(1, ": not found\n", 12);
+	_error(count % 10 + '0');*/
+	if (isatty(STDIN_FILENO))
+	{
+		write(1, cmd, _strlen(cmd));
+		write(1, ": command not found\n", 20);
+	}
+	else
+	{
+		write(1, argv[0], _strlen(argv[0]));
+		write(1, ": 1: ", 5); /*TODO: change 1 to line count*/
+		write(1, cmd, _strlen(cmd));
+		write(1, ": not found\n", 12);
+	}
 }
+
 /**
  * exarg - executes argument passed
  * @input: argument to execute
@@ -92,6 +102,8 @@ int exarg(char *input, char **env, int count, char **argv)
 			wait(&status);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
+	if (status == 139)
+		status = 127;
 	return (status);
 }
 /**
