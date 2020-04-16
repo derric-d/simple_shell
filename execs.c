@@ -1,4 +1,10 @@
 #include "shell_2.h"
+
+/**
+ * _error - prints error code??
+ * @c: error code??
+ * Return: Error code??
+ */
 int _error(char c)
 {
 	perror("path error");
@@ -10,6 +16,7 @@ int _error(char c)
  * @chargv: argument vector
  * @cmd: cmd passed
  * @count: count of prompt cycles
+ * @argv: array of arguments
  */
 void path_error(char **chargv, char *cmd, int count, char **argv)
 {
@@ -43,6 +50,7 @@ void path_error(char **chargv, char *cmd, int count, char **argv)
  * @input: argument to execute
  * @env: env passed through
  * @count: count of prompt cycles
+ * @argv: array of arguments
  * Return: 1 on success
  */
 int exarg(char *input, char **env, int count, char **argv)
@@ -56,8 +64,6 @@ int exarg(char *input, char **env, int count, char **argv)
 	if (pid == 0)
 	{
 		get_tokens(input, BLANK_STRING, &chargv);
-		/*printf("chargv is %s\n", chargv[0]);
-		printf("output of strcmp is %d\n", _strcmp("env", chargv[0]));*/
 		if (chargv == NULL)
 		{
 			free(input);
@@ -65,11 +71,7 @@ int exarg(char *input, char **env, int count, char **argv)
 			exit(EXIT_SUCCESS);
 		}
 		else if (_strcmp("env", chargv[0]) == 0)
-		{
-			/*printf("im here\n");*/
 			exec_env(input, chargv, env);
-
-		}
 		else if (stat(chargv[0], &filestat) == 0)
 		{
 			exec_res = execve(chargv[0], chargv, env);
@@ -78,9 +80,7 @@ int exarg(char *input, char **env, int count, char **argv)
 			exit(EXIT_FAILURE);
 		}
 		else
-		{
 			exec_path(chargv, input, env, count, argv);
-		}
 	}
 	else if (pid < 0)
 	{
@@ -100,6 +100,7 @@ int exarg(char *input, char **env, int count, char **argv)
  * @input: command given
  * @env: env passed
  * @count: count of prompt cycles
+ * @argv: array of arguments
  */
 void exec_path(char **chargv, char *input, char **env, int count, char **argv)
 {
