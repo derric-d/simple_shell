@@ -31,6 +31,6 @@ int _strcmp(const char *s1, const char *s2);
 char *_strcpy(char *dest, const char *src);
 char *_strncpy(char *dest, const char *src, size_t n);
 int exec_exit(char *line, char **chargv);
-int _strspn(char *s, char *accept);
+int _strspn(const char *s, const char *accept);
 
 #endif

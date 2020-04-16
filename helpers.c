@@ -75,7 +75,7 @@ char *_strcpy(char *dest, const char *src)
  *         -1 for any errors
  */
 
-int _strspn(char *s, char *accept)
+int _strspn(const char *s, const char *accept)
 {
 	int seg_count, in_accept, i;
 
