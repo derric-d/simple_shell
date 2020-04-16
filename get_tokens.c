@@ -20,7 +20,7 @@ int get_tokens(char *line, const char *delimiters, char ***argvp)
 		return (-1);
 	}
 	*argvp = NULL;
-	snew = line + strspn(line, delimiters);
+	snew = line + _strspn(line, delimiters);
 	t = malloc(_strlen(snew) + 1);
 	if (t == NULL)
 		return (-1);

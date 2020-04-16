@@ -56,8 +56,8 @@ int exarg(char *input, char **env, int count, char **argv)
 	if (pid == 0)
 	{
 		get_tokens(input, BLANK_STRING, &chargv);
-		printf("chargv is %s\n", chargv[0]);
-		printf("output of strcmp is %d\n", _strcmp("env", chargv[0]));
+		/*printf("chargv is %s\n", chargv[0]);
+		printf("output of strcmp is %d\n", _strcmp("env", chargv[0]));*/
 		if (chargv == NULL)
 		{
 			free(input);
@@ -66,7 +66,7 @@ int exarg(char *input, char **env, int count, char **argv)
 		}
 		else if (_strcmp("env", chargv[0]) == 0)
 		{
-			printf("im here\n");
+			/*printf("im here\n");*/
 			exec_env(input, chargv, env);
 
 		}
