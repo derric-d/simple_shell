@@ -32,5 +32,8 @@ char *_strcpy(char *dest, const char *src);
 char *_strncpy(char *dest, const char *src, size_t n);
 int exec_exit(char *line, char **chargv);
 int _strspn(const char *s, const char *accept);
+int cmd_notfound(char **argv, char *cmd, int count);
+int permission_denial(char **argv, char *cmd, int count);
+
 
 #endif
