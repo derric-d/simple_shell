@@ -38,9 +38,9 @@ char *read_line(void)
 int main(int ac, char **av, char **env)
 {
 	char *line;
-	int status = 1, count = 0;
+	int status = 1, count = 0, flag = 1;
 	(void)ac;
-
+	puts("main b4 loop");
 	signal(SIGINT, exec_sig);
 	do {
 		if (isatty(STDIN_FILENO))
@@ -51,10 +51,18 @@ int main(int ac, char **av, char **env)
 			return (status);
 		}
 		++count;
+		puts("main1");
 		status = exarg(line, env, count, av);
+		if (status != 0)
+			flag = 0;
+		printf("status in main = %d\n", status);
+		puts("main2");
 		free(line);
 		line = NULL;
-	} while (1);
-	return (0);
+	} while (flag);
+	printf("status after loop %d\n", status);
+	if (status != 0)
+		exit(status);
+	return (status);
 }
 

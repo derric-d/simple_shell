@@ -25,7 +25,7 @@ void _perror(char *s)
 void _perror_int(int n)
 {
 	char num;
-	
+
 	if ((n / 10) > 0)
 		_perror_int(n / 10);
 
@@ -47,7 +47,7 @@ int cmd_notfound(char **argv, char *cmd, int count)
 	_perror(": ");
 	_perror(cmd);
 	_perror(": not found\n");
-
+	puts("cmd nf");
 	return (127);
 }
 /**
@@ -65,6 +65,6 @@ int permission_denial(char **argv, char *cmd, int count)
 	_perror(": ");
 	_perror(cmd);
 	_perror(": Permission denied\n");
-	
+	puts("perm denied");
 	return (127);
 }
