@@ -85,11 +85,14 @@ char *_getenv(char *name, char **environ)
 	if (!name_cpy)
 		return (NULL);
 
-	strncpy(name_cpy, name, len);
+	_strncpy(name_cpy, name, len);
 	env_var = strtok(environ[i], "=");
 
 	while (environ[i])
 	{
+		printf("env var is %s\n", env_var);
+		printf("name_cpy is %s\n", name_cpy);
+		printf("strcmp output is %d\n", _strcmp(env_var, name_cpy));
 		if (_strcmp(env_var, name_cpy) == 0)
 		{
 			env_var = strtok(NULL, "\n");

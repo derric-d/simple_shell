@@ -44,7 +44,8 @@ int main(int ac, char **av, char **env)
 	signal(SIGINT, exec_sig);
 	do {
 		++count;
-		write(1, "$ ", 2);
+		if (isatty(STDIN_FILENO))
+			write(1, "$ ", 2);
 		line = read_line();
 		if (_strcmp(line, "exit\n") == 0)
 		{
