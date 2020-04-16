@@ -9,7 +9,7 @@
 void exec_sig(int sig)
 {
 	(void)sig;
-	write(STDOUT_FILENO, "\n$", 3);
+	write(STDOUT_FILENO, "\n$ ", 3);
 }
 /**
  * read_line - gets the command line input
@@ -38,12 +38,11 @@ char *read_line(void)
 int main(int ac, char **av, char **env)
 {
 	char *line;
-	int status = 1, count;
+	int status = 1, count = 0;
 	(void)ac;
 
 	signal(SIGINT, exec_sig);
 	do {
-		++count;
 		if (isatty(STDIN_FILENO))
 			write(1, "$ ", 2);
 		line = read_line();
@@ -51,6 +50,7 @@ int main(int ac, char **av, char **env)
 		{
 			return (status);
 		}
+		++count;
 		status = exarg(line, env, count, av);
 		free(line);
 		line = NULL;

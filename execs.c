@@ -1,5 +1,5 @@
 #include "shell_2.h"
-
+int permission_denial(char **argv, char *cmd, int count);
 /**
  * _error - prints error code??
  * @c: error code??
@@ -86,7 +86,10 @@ int exarg(char *input, char **env, int count, char **argv)
 		{
 			exec_res = execve(chargv[0], chargv, env);
 			if (exec_res < 0)
-				perror("exec error");
+			{
+				permission_denial(argv, chargv[0], count);
+				return (127);
+			}
 			exit(EXIT_FAILURE);
 		}
 		else
@@ -114,6 +117,7 @@ int exarg(char *input, char **env, int count, char **argv)
  * @count: count of prompt cycles
  * @argv: array of arguments
  */
+int cmd_notfound(char **argv, char *cmd, int count);
 void exec_path(char **chargv, char *input, char **env, int count, char **argv)
 {
 	struct stat pathstat;
@@ -127,8 +131,8 @@ void exec_path(char **chargv, char *input, char **env, int count, char **argv)
 			execve(pathdirs[i], chargv, NULL);
 		i++;
 	}
-	path_error(chargv, chargv[0], count, argv);
-
+	/*path_error(chargv, chargv[0], count, argv);*/
+	cmd_notfound(argv, chargv[0], count);
 	free(input);
 	input = NULL;
 	free_dub(chargv);
@@ -149,5 +153,3 @@ void eof_routine(char *line)
 	line = NULL;
 	exit(0);
 }
-
-
