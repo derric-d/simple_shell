@@ -53,8 +53,6 @@ int main(int ac, char **av, char **env)
 		++count;
 		puts("main1");
 		status = exarg(line, env, count, av);
-		if (status != 0)
-			flag = 0;
 		printf("status in main = %d\n", status);
 		puts("main2");
 		free(line);
