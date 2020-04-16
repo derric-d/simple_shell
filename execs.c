@@ -1,5 +1,6 @@
 #include "shell_2.h"
 int permission_denial(char **argv, char *cmd, int count);
+#if 0
 /**
  * _error - prints error code??
  * @c: error code??
@@ -54,7 +55,7 @@ void path_error(char **chargv, char *cmd, int count, char **argv)
 		write(1, ": not found\n", 12);
 	}
 }
-
+#endif
 /**
  * exarg - executes argument passed
  * @input: argument to execute
@@ -87,13 +88,12 @@ int exarg(char *input, char **env, int count, char **argv)
 			exec_res = execve(chargv[0], chargv, env);
 			if (exec_res < 0)
 			{
-				permission_denial(argv, chargv[0], count);
-				return (127);
+				status = permission_denial(argv, chargv[0], count);
+				printf("status in exarg= %d\n", status);
 			}
-			exit(EXIT_FAILURE);
 		}
 		else
-			exec_path(chargv, input, env, count, argv);
+			status = exec_path(chargv, input, env, count, argv);
 	}
 	else if (pid < 0)
 	{
@@ -118,10 +118,10 @@ int exarg(char *input, char **env, int count, char **argv)
  * @argv: array of arguments
  */
 int cmd_notfound(char **argv, char *cmd, int count);
-void exec_path(char **chargv, char *input, char **env, int count, char **argv)
+int exec_path(char **chargv, char *input, char **env, int count, char **argv)
 {
 	struct stat pathstat;
-	int i = 0;
+	int i = 0, status = 0;
 	char **pathdirs;
 
 	pathdirs = env_array(chargv[0], env);
@@ -132,7 +132,7 @@ void exec_path(char **chargv, char *input, char **env, int count, char **argv)
 		i++;
 	}
 	/*path_error(chargv, chargv[0], count, argv);*/
-	cmd_notfound(argv, chargv[0], count);
+	status = cmd_notfound(argv, chargv[0], count);
 	free(input);
 	input = NULL;
 	free_dub(chargv);
@@ -140,6 +140,7 @@ void exec_path(char **chargv, char *input, char **env, int count, char **argv)
 	free_dub(pathdirs);
 	pathdirs = NULL;
 	exit(EXIT_SUCCESS);
+	return (status);
 }
 /**
  * eof_routine - handles eof
