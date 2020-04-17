@@ -1,60 +1,6 @@
 #include "shell_2.h"
 int permission_denial(char **argv, char *cmd, int count);
-/**
- * _error - prints error code??
- * @c: error code??
- * Return: Error code??
- */
-/*int _error(char c)
-{
-	perror("path error");
-	write(1, &c, 1);
-	return (errno);
-}*/
-/**
- * path_error - handles error for path cmd
- * @chargv: argument vector
- * @cmd: cmd passed
- * @count: count of prompt cycles
- * @argv: array of arguments
- */
-void path_error(char **chargv, char *cmd, int count, char **argv)
-{
-	int num = 1, len = 1, safecnt = count;
-
-	(void)chargv;
-	/*write(1, argv[0], _strlen(argv[0]));
-	write(1, ": ", 2);*/
-	while (safecnt > 9)
-	{
-		safecnt /= 10;
-		num *= 10;
-		len++;
-	}
-	/*while (len > 1)
-	{
-		if ((count / num) < 10)
-			_error((count / num + '0'));
-		else
-			_error((count % num) % 10 + '0');
-		len--;
-		num /= 10;
-	}
-	_error(count % 10 + '0');*/
-	if (isatty(STDIN_FILENO))
-	{
-		write(1, cmd, _strlen(cmd));
-		write(1, ": command not found\n", 20);
-	}
-	else
-	{
-		write(1, argv[0], _strlen(argv[0]));
-		write(1, ": 1: ", 5); /*TODO: change 1 to line count*/
-		write(1, cmd, _strlen(cmd));
-		write(1, ": not found\n", 12);
-	}
-}
-
+int cmd_notfound(char **argv, char *cmd, int count);
 /**
  * exarg - executes argument passed
  * @input: argument to execute
@@ -117,7 +63,6 @@ int exarg(char *input, char **env, int count, char **argv)
  * @count: count of prompt cycles
  * @argv: array of arguments
  */
-int cmd_notfound(char **argv, char *cmd, int count);
 void exec_path(char **chargv, char *input, char **env, int count, char **argv)
 {
 	struct stat pathstat;
@@ -131,7 +76,6 @@ void exec_path(char **chargv, char *input, char **env, int count, char **argv)
 			execve(pathdirs[i], chargv, NULL);
 		i++;
 	}
-	/*path_error(chargv, chargv[0], count, argv);*/
 	cmd_notfound(argv, chargv[0], count);
 	free(input);
 	input = NULL;
