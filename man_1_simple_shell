@@ -1,0 +1,17 @@
+  .TH man "13 Apr. 2020" "0.9" "simple_shell man page"
+  .SH NAME
+  -simple_shell - a simple reproduction of the sh and bash shell
+  .SH DESCRIPTION
+  This simple shell is meant as a project to guide students through the inner workings of the unix operating system through the production of a custom shell.
+  The functionality is supposed to be kept close to that of shells like bash or dash, but will be somewhat simpler.
+  .SH USAGE
+  .B ./[output_name] starts program---
+  .B $ [command]---The first argument is the command to be run by the simple shell and the following arguments are meant as options ---
+  The user may exit the program by entering "ctrl-d" or typing "exit" as a command.
+
+  .SH DISCLAIMER
+
+  Using this shell in your work flow may cause distress. It may be lacking some functionality that you are used to on other shells. Please use only to learn more about the functionality of a shell
+  .SH AUTHORS
+  Derric Donehoo,
+  Nic Basilio
