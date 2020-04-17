@@ -1,5 +1,6 @@
 #include "shell_2.h"
 
+int _strspn(const char *s, const char *accept);
 /**
  * get_tokens - makes a tokenized array of arguments
  * @line: line to parse
@@ -7,8 +8,6 @@
  * @argvp: argument array to populate
  * Return: number of tokens in list
  */
-int _strspn(const char *s, const char *accept);
-
 int get_tokens(char *line, const char *delimiters, char ***argvp)
 {
 	int error, i, numtokens = 0;

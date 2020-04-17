@@ -47,11 +47,12 @@ int cmd_notfound(char **argv, char *cmd, int count)
 	_perror(": ");
 	_perror(cmd);
 	_perror(": not found\n");
-	puts("cmd nf");
+	free(cmd);
+	cmd = NULL;
 	return (127);
 }
 /**
- * permission_denied - error for perm denial
+ * permission_denial - error for perm denial
  * @argv: argument vector passed at rpogram start
  * @cmd: cmd passed as input
  * @count: count of commands
@@ -65,6 +66,7 @@ int permission_denial(char **argv, char *cmd, int count)
 	_perror(": ");
 	_perror(cmd);
 	_perror(": Permission denied\n");
-	puts("perm denied");
+	free(cmd);
+	cmd = NULL;
 	return (127);
 }
