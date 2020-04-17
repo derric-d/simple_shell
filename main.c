@@ -24,7 +24,10 @@ char *read_line(void)
 
 	get_line_res = getline(&line, &linesize, stdin);
 	if (get_line_res == EOF)
+	{
 		eof_routine(line);
+		return (NULL);
+	}
 
 	return (line);
 }
@@ -40,21 +43,23 @@ int main(int ac, char **av, char **env)
 	char *line;
 	int status = 1, count = 0;
 	(void)ac;
-
 	signal(SIGINT, exec_sig);
-	do {
+	while (1)
+	{
 		if (isatty(STDIN_FILENO))
 			write(1, "$ ", 2);
 		line = read_line();
+		if (!line)
+			break;
 		if (_strcmp(line, "exit\n") == 0)
 		{
-			return (status);
+			exit(127);
 		}
 		++count;
 		status = exarg(line, env, count, av);
 		free(line);
 		line = NULL;
-	} while (1);
-	return (0);
+	}
+	exit(127);
 }
 

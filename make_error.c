@@ -47,7 +47,7 @@ int cmd_notfound(char **argv, char *cmd, int count)
 	_perror(": ");
 	_perror(cmd);
 	_perror(": not found\n");
-
+	
 	return (127);
 }
 /**

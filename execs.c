@@ -32,14 +32,11 @@ int exarg(char *input, char **env, int count, char **argv)
 		{
 			exec_res = execve(chargv[0], chargv, env);
 			if (exec_res < 0)
-			{
-				permission_denial(argv, chargv[0], count);
-				return (127);
-			}
-			exit(EXIT_FAILURE);
+				status = permission_denial(argv, chargv[0], count);
 		}
 		else
-			exec_path(chargv, input, env, count, argv);
+			status = exec_path(chargv, input, env, count, argv);
+		exit(127);
 	}
 	else if (pid < 0)
 	{
@@ -53,6 +50,8 @@ int exarg(char *input, char **env, int count, char **argv)
 	}
 	if (status == 139)
 		status = 127;
+	if (status == 32512)
+		status = WEXITSTATUS(status);
 	return (status);
 }
 /**
@@ -62,11 +61,12 @@ int exarg(char *input, char **env, int count, char **argv)
  * @env: env passed
  * @count: count of prompt cycles
  * @argv: array of arguments
+ * Return: status
  */
 void exec_path(char **chargv, char *input, char **env, int count, char **argv)
 {
 	struct stat pathstat;
-	int i = 0;
+	int i = 0, status = 0;
 	char **pathdirs;
 
 	pathdirs = env_array(chargv[0], env);
@@ -76,7 +76,9 @@ void exec_path(char **chargv, char *input, char **env, int count, char **argv)
 			execve(pathdirs[i], chargv, NULL);
 		i++;
 	}
+
 	cmd_notfound(argv, chargv[0], count);
+
 	free(input);
 	input = NULL;
 	free_dub(chargv);
@@ -84,16 +86,17 @@ void exec_path(char **chargv, char *input, char **env, int count, char **argv)
 	free_dub(pathdirs);
 	pathdirs = NULL;
 	exit(EXIT_SUCCESS);
+	return (status);
 }
 /**
  * eof_routine - handles eof
  * @line: argument passed
+ * Return: -1
  */
-void eof_routine(char *line)
+int eof_routine(char *line)
 {
+	(void) line;
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, "\n", 1);
-	free(line);
-	line = NULL;
-	exit(0);
+	return (-1);
 }
