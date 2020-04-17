@@ -1,17 +1,6 @@
 #include "shell_2.h"
 
 /**
- * _error - prints error code??
- * @c: error code??
- * Return: Error code??
- */
-/*int _error(char c)
-{
-	perror("path error");
-	write(1, &c, 1);
-	return (errno);
-}*/
-/**
  * path_error - handles error for path cmd
  * @chargv: argument vector
  * @cmd: cmd passed

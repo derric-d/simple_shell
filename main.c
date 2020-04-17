@@ -9,7 +9,7 @@
 void exec_sig(int sig)
 {
 	(void)sig;
-	write(STDOUT_FILENO, "\n$", 3);
+	write(STDOUT_FILENO, "\n$ ", 3);
 }
 /**
  * read_line - gets the command line input
