@@ -24,7 +24,10 @@ char *read_line(void)
 
 	get_line_res = getline(&line, &linesize, stdin);
 	if (get_line_res == EOF)
+	{
 		eof_routine(line);
+		return (NULL);
+	}
 
 	return (line);
 }
@@ -38,29 +41,25 @@ char *read_line(void)
 int main(int ac, char **av, char **env)
 {
 	char *line;
-	int status = 1, count = 0, flag = 1;
+	int status = 1, count = 0;
 	(void)ac;
-	puts("main b4 loop");
 	signal(SIGINT, exec_sig);
-	do {
+	while (1)
+	{
 		if (isatty(STDIN_FILENO))
 			write(1, "$ ", 2);
 		line = read_line();
+		if (!line)
+			break;
 		if (_strcmp(line, "exit\n") == 0)
 		{
-			return (status);
+			exit(127);
 		}
 		++count;
-		puts("main1");
 		status = exarg(line, env, count, av);
-		printf("status in main = %d\n", status);
-		puts("main2");
 		free(line);
 		line = NULL;
-	} while (flag);
-	printf("status after loop %d\n", status);
-	if (status != 0)
-		exit(status);
-	return (status);
+	}
+	exit(127);
 }
 

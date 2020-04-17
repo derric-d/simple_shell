@@ -24,7 +24,7 @@ void _printenv(char **env);
 void exec_env(char *line, char **chargv, char **env);
 int exarg(char *input, char **env, int count, char **argv);
 int exec_path(char **chargv, char *input, char **env, int count, char **argv);
-void eof_routine(char *line);
+int eof_routine(char *line);
 char *read_line(void);
 size_t _strlen(const char *s);
 int _strcmp(const char *s1, const char *s2);

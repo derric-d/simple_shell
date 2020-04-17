@@ -1,61 +1,6 @@
 #include "shell_2.h"
 int permission_denial(char **argv, char *cmd, int count);
-#if 0
-/**
- * _error - prints error code??
- * @c: error code??
- * Return: Error code??
- */
-/*int _error(char c)
-{
-	perror("path error");
-	write(1, &c, 1);
-	return (errno);
-}*/
-/**
- * path_error - handles error for path cmd
- * @chargv: argument vector
- * @cmd: cmd passed
- * @count: count of prompt cycles
- * @argv: array of arguments
- */
-void path_error(char **chargv, char *cmd, int count, char **argv)
-{
-	int num = 1, len = 1, safecnt = count;
-
-	(void)chargv;
-	/*write(1, argv[0], _strlen(argv[0]));
-	write(1, ": ", 2);*/
-	while (safecnt > 9)
-	{
-		safecnt /= 10;
-		num *= 10;
-		len++;
-	}
-	/*while (len > 1)
-	{
-		if ((count / num) < 10)
-			_error((count / num + '0'));
-		else
-			_error((count % num) % 10 + '0');
-		len--;
-		num /= 10;
-	}
-	_error(count % 10 + '0');*/
-	if (isatty(STDIN_FILENO))
-	{
-		write(1, cmd, _strlen(cmd));
-		write(1, ": command not found\n", 20);
-	}
-	else
-	{
-		write(1, argv[0], _strlen(argv[0]));
-		write(1, ": 1: ", 5); /*TODO: change 1 to line count*/
-		write(1, cmd, _strlen(cmd));
-		write(1, ": not found\n", 12);
-	}
-}
-#endif
+int cmd_notfound(char **argv, char *cmd, int count);
 /**
  * exarg - executes argument passed
  * @input: argument to execute
@@ -87,13 +32,11 @@ int exarg(char *input, char **env, int count, char **argv)
 		{
 			exec_res = execve(chargv[0], chargv, env);
 			if (exec_res < 0)
-			{
 				status = permission_denial(argv, chargv[0], count);
-				printf("status in exarg= %d\n", status);
-			}
 		}
 		else
 			status = exec_path(chargv, input, env, count, argv);
+		exit(127);
 	}
 	else if (pid < 0)
 	{
@@ -107,6 +50,8 @@ int exarg(char *input, char **env, int count, char **argv)
 	}
 	if (status == 139)
 		status = 127;
+	if (status == 32512)
+		status = WEXITSTATUS(status);
 	return (status);
 }
 /**
@@ -116,8 +61,8 @@ int exarg(char *input, char **env, int count, char **argv)
  * @env: env passed
  * @count: count of prompt cycles
  * @argv: array of arguments
+ * Return: status
  */
-int cmd_notfound(char **argv, char *cmd, int count);
 int exec_path(char **chargv, char *input, char **env, int count, char **argv)
 {
 	struct stat pathstat;
@@ -145,12 +90,12 @@ int exec_path(char **chargv, char *input, char **env, int count, char **argv)
 /**
  * eof_routine - handles eof
  * @line: argument passed
+ * Return: -1
  */
-void eof_routine(char *line)
+int eof_routine(char *line)
 {
+	(void) line;
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, "\n", 1);
-	free(line);
-	line = NULL;
-	exit(0);
+	return (-1);
 }
