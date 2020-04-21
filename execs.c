@@ -12,24 +12,28 @@ void path_error(char **chargv, char *cmd, int count, char **argv)
 	int num = 1, len = 1, safecnt = count;
 
 	(void)chargv;
-	/*write(1, argv[0], _strlen(argv[0]));
-	write(1, ": ", 2);*/
+	/**
+	 * write(1, argv[0], _strlen(argv[0]));
+	 * write(1, ": ", 2);
+	 */
 	while (safecnt > 9)
 	{
 		safecnt /= 10;
 		num *= 10;
 		len++;
 	}
-	/*while (len > 1)
-	{
-		if ((count / num) < 10)
-			_error((count / num + '0'));
-		else
-			_error((count % num) % 10 + '0');
-		len--;
-		num /= 10;
-	}
-	_error(count % 10 + '0');*/
+	/**
+	 * while (len > 1)
+	 *{
+	 *	if ((count / num) < 10)
+	 *		_error((count / num + '0'));
+	 *	else
+	 *		_error((count % num) % 10 + '0');
+	 *	len--;
+	 *	num /= 10;
+	 *}
+	 *_error(count % 10 + '0');
+	 */
 	if (isatty(STDIN_FILENO))
 	{
 		write(1, cmd, _strlen(cmd));
